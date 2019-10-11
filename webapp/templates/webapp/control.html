@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>User Control Panel</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container main">
+      <!-- TOP -->
+      {% include "webapp/menu.html" %}
+      <!-- MID -->
+      {% if user %}
+
+      <div class="row">
+        <h3>Change email address</h3>
+      </div>
+      <div class="row">
+        <form id ="changeEmailForm" method ="post" class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-xs-2" for="username">New Email:</label>
+            <div class="col-xs-8">
+              <input class="form-control" type="text" name="newEmail" id ="newEmail" placeholder="New Email...">
+            </div>
+          </div>
+          <div class="form-group">
+            <input name="signIn" type="submit" value="Change Email" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <h3>Change Password</h3>
+      </div>
+      <div class="row">
+        <form id ="changePasswordForm" method ="post" class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-xs-2" for="username">Old Password:</label>
+            <div class="col-xs-8">
+              <input class="form-control" type="password" name="oldPassword" id ="oldPassword" placeholder="Old password...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-xs-2" for="password">New Password:</label>
+              <div class="col-xs-8">
+                <input class="form-control" type="password" name="newPassword" id="newPassword" placeholder="New password...">
+              </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-xs-2" for="password">Repeat new password:</label>
+              <div class="col-xs-8">
+                <input class="form-control" type="password" name="repeatedNewPassword" id="repeatedNewPassword" placeholder="New password again...">
+              </div>
+          </div>
+          <div class="form-group">
+            <input name="signIn" type="submit" value="Change password" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

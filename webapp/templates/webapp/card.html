@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Flash Card</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <!-- Globals -->
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- TOP -->
+    <div class="container loginMenu">
+      {% include "webapp/menu.html" %}
+    </div>
+        <!-- MAIN -->
+    <div class="container main">
+      <div class="container flashCardPanel">
+        <h2 id="stackTitle"></h2>
+        <div class="card">
+          <div class="front">
+            <div class="media" id ="frontText">
+            </div>
+          </div>
+          <div class="back">
+            <div class="col-xs-10 media" id="backText">
+            </div>
+          </div>
+        </div>
+        <div class="feedback">
+            <button name="cardSuccess" class="btn-lg col-xs-3 btn-success" type="button" id="cardSuccess">I remembered!</button>
+            <button name="cardFailure" class="btn-lg col-xs-3 btn-danger" type="button" id="cardFailure">I didn't remember!</button>
+            <button name="previousCard" class="btn-lg col-xs-3 btn-outline-secondary" type="button" id="previousCard">Previous Card</button>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'js/card.js' %}"></script>
+    <script type="text/javascript">
+        var stack_id = {{ stack.id }};
+        var headline = document.getElementById("stackTitle");
+        headline.textContent = "Cards of {{ stack.title }}";
+
+        var randomized = [];
+
+        var currentCard = 0;
+        var currentRCard = randomized[currentCard];
+
+
+        var cardsCorrect = {};
+        $.getJSON("/stack/" + stack_id, function(result) {
+            if(result.length === 0) {
+              alert("No cards to showcase in this stack. Go create some!");
+              return false;
+            }
+            // randomization not implementet at the moment, this function console.logs the would-be random order.
+            randomizeCards(result);
+
+            displayCard(result, 0);
+            console.log(result.length + " cards in total!");
+
+            var backText = document.getElementById("backText");
+            var frontText = document.getElementById("frontText");
+
+            var card = document.getElementById("card");
+
+            var cardSuccess = document.getElementById("cardSuccess");
+            var cardFailure = document.getElementById("cardFailure");
+            var previousCard = document.getElementById("previousCard");
+
+        // link the neste kort - suksess
+          cardSuccess.onclick = function() {
+            cardsCorrect[[randomized[currentCard]]] = true;
+            if(currentCard+1 < result.length) {
+              currentCard++;
+              displayCard(result, currentCard);
+              $(".card").flip(false);
+            }
+            else {
+              printStats(result);
+            }
+          // link the neste kort - failure
+          }
+          cardFailure.onclick = function() {
+            cardsCorrect[randomized[currentCard]] = false;
+            if(currentCard +1 < result.length) {
+              currentCard++;
+              displayCard(result, currentCard);
+              $(".card").flip(false);
+            }
+            else {
+              printStats(result);
+            }
+          }
+          // gå tilbake til previous card.
+          previousCard.onclick = function() {
+            if(currentCard-1 >= 0) {
+              currentCard--;
+              displayCard(result, currentCard);
+              $(".card").flip(false);
+            }
+          }
+      });
+
+      function displayCard(result, currentCard) {
+        frontText.innerHTML = result[randomized[currentCard]]['fields']['content_front'];
+        backText.innerHTML = result[randomized[currentCard]]['fields']['content_back'];
+      }
+
+      function printStats(json) {
+        var message = "Results: \n";
+        var correct = 0;
+        var incorrect = 0;
+
+        for(var i = 0;i < Object.keys(cardsCorrect).length;i++) {
+           if(cardsCorrect[i] === true) {
+             correct++;
+             message += json[randomized[i]]['fields']['content_front'] + " - CORRECT \n";
+           }
+           else {
+             incorrect++;
+             message += json[[randomized[i]]]['fields']['content_front'] + " - INCORRECT \n";
+           }
+        }
+
+        message += "\n TOTALS: \n " + correct + " CORRECT \n" + incorrect + " INCORRECT.";
+        message += "\n Percentage Correct: " + (correct/(correct+incorrect))*100 +"%.";
+        alert(message);
+      }
+      function randomizeCards(result) {
+          var max = result.length;
+          var mix = 0;
+          var ordered = Array.apply(null, {length: max}).map(Number.call, Number);
+          while (max--) {
+              min = Math.floor(Math.random() * (max+1));
+              randomized.push(ordered[min]);
+              ordered.splice(min,1);
+           }
+           console.log("Random sequence of cards is:  " + randomized);
+      }
+
+      $(".card").flip();
+    </script>
+  </body>
+</html>

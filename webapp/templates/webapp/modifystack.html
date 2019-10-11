@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Configure Stack</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container loginMenu">
+      <!-- TOP -->
+       {% include "webapp/menu.html" %}
+      <!-- MID -->
+      <!-- FORM for editing stack to be populated with existing database information -->
+      <h3>Edit your stack</h3>
+      <form id="stackForm" method="post">{% csrf_token %}
+        <div class="form-group">
+          <label for="title">Name:</label>
+           <input type="text" name="title" id ="title" value="{{ stack.title }}" class="form-control">
+        </div>
+        <div class="radio">
+          {% if stack.is_public == True %}
+          <label class="radio-inline"><input name="isPublic" type="radio" value="false">Private</label>
+          <label class="radio-inline"><input name="isPublic" type="radio" value="true" checked="checked">Public</label>
+          {% else %}
+          <label class="radio-inline"><input name="isPublic" type="radio" value="false" checked="checked">Private</label>
+          <label class="radio-inline"><input name="isPublic" type="radio" value="true">Public</label>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+           <input type="text" name="description" id="description" value="{{ stack.description }}" class="form-control">
+        </div>
+        <button id ="addCard" name="addCard" type="button" value="" class="btn btn-lg btn-primary">Add a card</button>
+        <div class="row">
+          <!-- CONTAINER FOR Individual cards in stack, displayed in a 2x2 fashion -->
+          <div class="container">
+            <div class="row cardPairRow template">
+              <h4>Card List</h4>
+               {% for card in cards %}
+               <div class="col-xs-6 cardItem template">
+                 <a href="/edit_card/{{stack.id}}/{{card.id}}">
+                   <div class="cardLinks">
+                     <img src="{% static 'img/flashCardIcon.png' %}" class="thumbnailImage" alt="card thumbnail" />
+                     <div class="cardTitle">
+                       {{ card.content_front }}
+                     </div>
+                   </div>
+                 </a>
+                 <div class="cardOptions">
+                   <a class="btn btn-default" href="/edit_card/{{stack.id}}/{{card.id}}"><span class="glyphicon	glyphicon glyphicon-pencil"></span></a>
+                   <a class="btn btn-default" onclick="removeCard({{ card.id }});"><span class="glyphicon	glyphicon glyphicon-trash"></span></a>
+                 </div>
+               </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <input name="saveStack" type="submit" value="Save stack" class="btn btn-lg btn-success">
+        <button name="cancelStack" type="button" class="btn btn-lg btn-danger" id="cancelButton">Cancel changes</button>
+    </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static 'js/createstack.js' %}"></script>
+  </body>
+</html>

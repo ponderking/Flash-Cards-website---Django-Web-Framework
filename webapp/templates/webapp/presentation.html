@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Flash Cards</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container loginMenu">
+      <!-- TOP -->
+      {% include "webapp/menu.html" %}
+        <img src="{% static 'img/placeholderLogo.png' %}" class="img-rounded center-block logo">
+      </div>
+      <!-- MID -->
+      <div class="container mainPresentation">
+        <div class="presentationMenu panel panel-info">
+          <div class="panel-heading">About Flash Cards</div>
+          <div class="presentationIntro">
+            <h4>Flash Cards is a tool designed to help increase your study efficiency. </h4>
+            <p>
+              Our aim is to create a study aid that will help facilitate for efficient memorization techniques through repeated exposure to subject related terms, and their meanings.
+            </p>
+          </div>
+          <div class="featurePanel">
+            <div class="presentationImage">
+              <img src="{% static 'img/flashCardIcon.png' %}" class="thumbnailImage" alt="card thumbnail" />
+            </div>
+            <div class="presentationText">
+              <h4>Flash Cards</h4>
+              <p>Each flash card is created to represent a single keyword, concept, formula, or question. The front will usually present the keyword, while the back will present its definition.</p>
+            </div>
+          </div>
+          <div class="featurePanel">
+            <div class="presentationImage">
+              <img src="{% static 'img/flashCardStack.png' %}" class="thumbnailImage" alt="card thumbnail" />
+            </div>
+            <div class="presentationText">
+              <h4>Stacks</h4>
+              <p>Stacks are created to divide your flash cards by subject. This helps you organize your subjects so you can easily focus on the subject you need to study.</p>
+            </div>
+          </div>
+          <div class="presentationPanel">
+            <h3>Upcoming features</h3>
+            <ul>
+              <li>Profile page</li>
+              <li>Social media sharing</li>
+              <li>Social media user account login</li>
+              <li>Stack Rating and Commenting</li>
+              <li>Multimedia Flash Cards</li>
+              <li>User configured card repetition</li>
+              <li>Card moving</li>
+              <li>Card copying from other stacks</li>
+            </ul>
+          </div>
+        </div>
+        <div class="recentPublicStacks panel panel-default">
+          <div class="panel-heading">Recent public stacks:</div>
+          {% for stack in stacks %}
+          <div id="yourStacks">
+              <div id="stackTemplate">
+                <div>
+                  <img src="{% static 'img/flashCardStack.png' %}" class="thumbnailImage" alt="stack thumbnail" />
+                </div>
+                <div>
+                  <a href="#" id="link{{stack.id}}">{{ stack.title }}</a>
+                </div>
+             </div>
+         </div>
+         {% endfor %}
+        </div>
+      </div>
+  </body>
+</html>

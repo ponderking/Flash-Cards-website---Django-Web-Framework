@@ -1,0 +1,147 @@
+.logo {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  height: 300px;
+  width: 80%;
+  margin-bottom: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
+	-webkit-perspective: 600px;
+}
+
+.front, .back {
+	background: #FFF;
+	border-radius: 10px;
+	transition: -webkit-transform 0.5s;
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	border: 1px solid black;
+}
+
+.front {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+	overflow: hidden;
+	position: absolute;
+	z-index: 1;
+}
+
+.back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+	padding: 20px;
+	padding-top: 0px;
+	-webkit-transform: rotateY(-180deg);
+}
+
+.buttonPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.buttons {
+  margin-bottom: 10px;
+}
+
+.media {
+  display: block;
+}
+
+.feedback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardPairRow {
+  margin-bottom: 10px;
+}
+
+.responsiveImages{
+  max-width: 100%;
+  height: auto;
+}
+
+.cardItem {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.cardLinks {
+  display: flex;
+}
+
+.cardTitle {
+  margin-left: 10px;
+}
+
+.cardOptions {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.buttonGroup {
+  margin-top: 10px;
+}
+
+.mainPresentation {
+  display: flex;
+}
+
+.presentationMenu {
+  flex-basis: 60%;
+}
+
+.presentationPanel {
+  padding: 10px;
+}
+
+.featurePanel{
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.presentationImage {
+  margin-right: 10px;
+}
+
+.recentPublicStacks {
+  flex-basis: 40%;
+  margin-left: auto;
+}
+
+#stackTitle {
+  margin-left: 10%;
+}
+
+#stackTemplate {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/*
+.card:hover .back {
+	-webkit-transform: rotateY(0deg);
+}
+
+.card:hover .front {
+	-webkit-transform: rotateY(180deg);
+}
+*/
+.card-image {
+width: 100%;
+height: 100%;
+}

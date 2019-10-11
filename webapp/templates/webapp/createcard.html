@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Add a card</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container loginMenu">
+      <!-- TOP -->
+      {% include "webapp/menu.html" %}
+      <!-- MID -->
+    </div>
+    <div class="container main">
+      <div class="container-fluid">
+        <form id="createCardForm" method="post">{% csrf_token %}
+          <div class="row">
+            <h3>Card Creation</h3>
+          </div>
+          <div class="form-group">
+            <label>Card Front</label>
+            <input class="form-control" type="text" name="cardFrontText" id ="cardFrontText" placeholder="Card Front" value="{{card.content_front}}">
+          </div>
+          <div class="form-group">
+            <label>Card Back</label>
+            <input class="form-control" type="text" name="cardBackText" id ="cardBackText" placeholder="Card Back" value="{{card.content_back}}">
+          </div>
+          <div class="row buttonGroup">
+            <input class="col-xs-4 btn btn-lg btn-success" name="saveCard" type="submit" value="Save">
+            <button class="col-xs-4 btn btn-lg btn-default disabled" name="previewCard" type="button" value="">Preview</button>
+            <button id="cancelCard" class="col-xs-4 btn btn-lg btn-danger" name="cancelCard" type="button" value="" onclick="returnToStack({{card.cardstack.id}})">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static "js/createcard.js"  %}"></script>
+  </body>
+</html>
